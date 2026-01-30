@@ -1,32 +1,33 @@
 🚀 CI/CD Pipeline with Jenkins, Docker & Kubernetes (Minikube)
+-----------------------------------------------------------------------------------------------------------------------------------
 
 This project demonstrates a complete end-to-end CI/CD pipeline where code pushed to GitHub automatically triggers Jenkins to:
 
-Run unit tests
+1.Run unit tests
 
-Build a Docker image
+2.Build a Docker image
 
-Push the image to Docker Hub
+3.Push the image to Docker Hub
 
-Deploy the application to Kubernetes using Minikube
-
+4.Deploy the application to Kubernetes using Minikube
+-----------------------------------------------------------------------------------------------------------------------------------
 🧱 Tech Stack
 
-GitHub – Source code repository
+- GitHub – Source code repository
 
-Jenkins (Multibranch Pipeline) – CI/CD orchestration
+- Jenkins (Multibranch Pipeline) – CI/CD orchestration
 
-Docker – Containerization
+- Docker – Containerization
 
-Docker Hub – Image registry
+- Docker Hub – Image registry
 
-Kubernetes (Minikube) – Container orchestration
+- Kubernetes (Minikube) – Container orchestration
 
-Python + Flask – Sample application
-
+- Python + Flask – Sample application
+-----------------------------------------------------------------------------------------------------------------------------------
 📁 Project Structure
-ci-cd-k8s-project-02/
 ```
+ci-cd-k8s-project-02/
 │
 ├── app.py
 ├── test_app.py
@@ -37,45 +38,46 @@ ci-cd-k8s-project-02/
     ├── deployment.yaml
     └── service.yaml
 ```
+-----------------------------------------------------------------------------------------------------------------------------------
 ✅ Prerequisites (Already Installed)
 
 ⚠️ Installation steps are intentionally excluded.
 
-Git
+- Git
 
-Jenkins (running on Windows)
+- Jenkins (running on Windows)
 
-Docker Desktop (running)
+- Docker Desktop (running)
 
-Minikube (running)
+- Minikube (running)
 
-kubectl configured
+- kubectl configured
 
-Python & pip
+- Python & pip
 
-Docker Hub account
-
+- Docker Hub account
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 1: GitHub Repository Setup
 
-Created a GitHub repository
+- Created a GitHub repository
 
-Pushed application source code
+- Pushed application source code
 
-Added a Jenkinsfile at the root of the repo
+- Added a Jenkinsfile at the root of the repo
 
-Ensured only one branch (main) exists
+- Ensured only one branch (main) exists
 
-Set main as the default branch
-
+- Set main as the default branch
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 2: Jenkins Configuration
 2.1 Create Jenkins Job
 
-Job Type: Multibranch Pipeline
+- Job Type: Multibranch Pipeline
 
-Source: GitHub repository URL
+- Source: GitHub repository URL
 
-Jenkins automatically detects Jenkinsfile
-
+- Jenkins automatically detects Jenkinsfile
+-----------------------------------------------------------------------------------------------------------------------------------
 🔑 Multibranch Pipeline is required for reliable GitHub webhook triggering
 
 2.2 GitHub Webhook
@@ -90,35 +92,35 @@ Event: Push
 Content type: application/json
 
 ✔ Verified webhook delivery (HTTP 200)
-
+-----------------------------------------------------------------------------------------------------------------------------------
 2.3 Jenkins Credentials
 
-Created Docker Hub credentials in Jenkins:
+- Created Docker Hub credentials in Jenkins:
 
-Kind: Username with password
+- Kind: Username with password
 
-ID: dockerhub-creds
+- ID: dockerhub-creds
 
-Username: Docker Hub username
+- Username: Docker Hub username
 
-Password: Docker Hub password / token
+- Password: Docker Hub password / token
 
 ⚠️ Jenkinsfile must reference the exact credential ID
-
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 3: Jenkinsfile (Pipeline Logic)
 Pipeline Flow
 
-Generate Docker image tag from Git commit
+- Generate Docker image tag from Git commit
 
-Install Python dependencies
+- Install Python dependencies
 
-Run unit tests using pytest
+- Run unit tests using pytest
 
-Build Docker image
+- Build Docker image
 
-Push image to Docker Hub
+- Push image to Docker Hub
 
-Deploy application to Kubernetes
+- Deploy application to Kubernetes
 
 Jenkinsfile (Final Working Version)
 ```
@@ -180,6 +182,7 @@ pipeline {
     }
 }
 ```
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 4: Dockerfile
 ```
 FROM python:3.11-slim
@@ -195,6 +198,7 @@ EXPOSE 5000
 
 CMD ["python", "app.py"]
 ```
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 5: Kubernetes Manifests
 Deployment (k8s/deployment.yaml)
 ```
@@ -218,8 +222,9 @@ spec:
           ports:
             - containerPort: 5000
 ```
-```
+-----------------------------------------------------------------------------------------------------------------------------------
 Service (k8s/service.yaml)
+```
 apiVersion: v1
 kind: Service
 metadata:
@@ -233,25 +238,28 @@ spec:
       targetPort: 5000
       nodePort: 30007
 ```
+-----------------------------------------------------------------------------------------------------------------------------------
 🔹 Step 6: Deployment Verification
 ```
 kubectl get pods
 kubectl get svc
 ```
-
+-----------------------------------------------------------------------------------------------------------------------------------
 Access application:
 ```
 minikube service my-app-service
 ```
+-----------------------------------------------------------------------------------------------------------------------------------
 🛠 Key Issues Faced & Fixes (IMPORTANT)
 Issue	Fix
-Jenkins webhook not triggering	Switched from Pipeline → Multibranch Pipeline
-Branch mismatch (master vs main)	Unified to single main branch
-sh not found error	Replaced sh with bat (Windows Jenkins)
-$VAR not working	Used %VAR% for Windows
-Docker credential error	Fixed credentialsId mismatch
-Kubernetes apiVersion not set	Fixed YAML key typos & casing
-nodePort error	Added type: NodePort
+- Jenkins webhook not triggering	Switched from Pipeline → Multibranch Pipeline
+- Branch mismatch (master vs main)	Unified to single main branch
+- sh not found error	Replaced sh with bat (Windows Jenkins)
+- $VAR not working	Used %VAR% for Windows
+- Docker credential error	Fixed credentialsId mismatch
+- Kubernetes apiVersion not set	Fixed YAML key typos & casing
+- nodePort error	Added type: NodePort
+- -----------------------------------------------------------------------------------------------------------------------------------
 🎯 Final Outcome
 
 ✔ GitHub push automatically triggers Jenkins
