@@ -1,0 +1,19 @@
+appversion: app/v1
+kind: Deployment
+metadata:
+  name: my-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: amalsunny27/ci-cd-k8s-project-02:latest
+        ports:
+        - containerPort: 5000
