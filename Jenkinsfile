@@ -7,7 +7,7 @@ pipeline{
         stage('Install Dependencies'){
             steps{
                 sh 'pip install -r requirements.txt'
-                //Because the Jenkins needs the dependencies to execute unit tests during CI.The Dockerfile installs dependencies for runtime inside Kubernetes.These are two separate environments.
+                //Because Jenkins needs the dependencies to execute unit tests during CI.The Dockerfile installs dependencies for runtime inside Kubernetes.These are two separate environments.
             }
         }
         stage('Run Unit Tests'){
