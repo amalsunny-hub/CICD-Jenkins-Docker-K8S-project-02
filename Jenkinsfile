@@ -4,10 +4,17 @@ pipeline{
         IMAGE_NAME='amalsunny27/ci-cd-k8s-project-02'
         tag="${GIT_COMMIT.substring(0,7)}"
     }
+    stages{
+        stage ('Checkout Code'){
+            steps{
+                git branch: 'main', url: 'https://github.com/amalsunny-hub/CICD-Jenkins-Docker-K8S-project-02.git'
+            }
+
+        }
         stage('Install Dependencies'){
             steps{
                 sh 'pip install -r requirements.txt'
-                //Because the Jenkins needs the dependencies to execute unit tests during CI.The Dockerfile installs dependencies for runtime inside Kubernetes.These are two separate environments.
+                //Because Jenkins needs the dependencies to execute unit tests during CI.The Dockerfile installs dependencies for runtime inside Kubernetes.These are two separate environments.
             }
         }
         stage('Run Unit Tests'){
