@@ -1,4 +1,4 @@
-appversion: app/v1
+appversion: apps/v1
 kind: Deployment
 metadata:
   name: my-app-deployment
