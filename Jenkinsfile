@@ -4,13 +4,6 @@ pipeline{
         IMAGE_NAME='amalsunny27/ci-cd-k8s-project-02'
         tag="${GIT_COMMIT.substring(0,7)}"
     }
-    stages{
-        stage ('Checkout Code'){
-            steps{
-                git branch: 'main', url: 'https://github.com/amalsunny-hub/CICD-Jenkins-Docker-K8S-project-02.git'
-            }
-
-        }
         stage('Install Dependencies'){
             steps{
                 sh 'pip install -r requirements.txt'
